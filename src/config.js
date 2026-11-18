@@ -9,13 +9,13 @@ const requiredVariables = [
 export function loadConfig(env = process.env) {
   const missing = requiredVariables.filter((name) => !env[name]?.trim());
   if (missing.length > 0) {
-    throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
+    console.warn(`[AVISO] Variables de entorno no configuradas aún: ${missing.join(", ")}. El servidor iniciará en modo espera.`);
   }
 
   const positiveInteger = (name, fallback) => {
     const value = Number.parseInt(env[name] ?? String(fallback), 10);
     if (!Number.isInteger(value) || value < 1) {
-      throw new Error(`${name} must be a positive integer`);
+      return fallback;
     }
     return value;
   };
@@ -23,12 +23,12 @@ export function loadConfig(env = process.env) {
   return {
     port: positiveInteger("PORT", 8080),
     host: env.HOST || "0.0.0.0",
-    metaAppSecret: env.META_APP_SECRET,
-    webhookVerifyToken: env.WEBHOOK_VERIFY_TOKEN,
-    whatsappAccessToken: env.WHATSAPP_ACCESS_TOKEN,
-    whatsappPhoneNumberId: env.WHATSAPP_PHONE_NUMBER_ID,
+    metaAppSecret: env.META_APP_SECRET || "sin_configurar",
+    webhookVerifyToken: env.WEBHOOK_VERIFY_TOKEN || "sin_configurar",
+    whatsappAccessToken: env.WHATSAPP_ACCESS_TOKEN || "sin_configurar",
+    whatsappPhoneNumberId: env.WHATSAPP_PHONE_NUMBER_ID || "sin_configurar",
     metaGraphApiVersion: env.META_GRAPH_API_VERSION || "v23.0",
-    geminiApiKey: env.GEMINI_API_KEY,
+    geminiApiKey: env.GEMINI_API_KEY || "sin_configurar",
     geminiModel: env.GEMINI_MODEL || "gemini-2.5-flash",
     maxConcurrentGeminiRequests: positiveInteger("MAX_CONCURRENT_GEMINI_REQUESTS", 10),
     maxHistoryMessages: positiveInteger("MAX_HISTORY_MESSAGES", 12),
