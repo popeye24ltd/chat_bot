@@ -24,7 +24,7 @@ export function loadConfig(env = process.env) {
     port: positiveInteger("PORT", 8080),
     host: env.HOST || "0.0.0.0",
     metaAppSecret: env.META_APP_SECRET || "sin_configurar",
-    webhookVerifyToken: env.WEBHOOK_VERIFY_TOKEN || "sin_configurar",
+    webhookVerifyToken: env.WEBHOOK_VERIFY_TOKEN || "perfectpolish",
     whatsappAccessToken: env.WHATSAPP_ACCESS_TOKEN || "sin_configurar",
     whatsappPhoneNumberId: env.WHATSAPP_PHONE_NUMBER_ID || "sin_configurar",
     metaGraphApiVersion: env.META_GRAPH_API_VERSION || "v23.0",
