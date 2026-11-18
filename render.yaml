@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: perfect-polish-whatsapp-bot
+    runtime: docker
+    plan: free
+    region: ohio
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: META_APP_SECRET
+        sync: false
+      - key: WEBHOOK_VERIFY_TOKEN
+        generateValue: true
+      - key: WHATSAPP_ACCESS_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      - key: META_GRAPH_API_VERSION
+        value: v23.0
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: MAX_CONCURRENT_GEMINI_REQUESTS
+        value: "10"
+      - key: MAX_HISTORY_MESSAGES
+        value: "12"
+      - key: CONVERSATION_TTL_MINUTES
+        value: "1440"
+      - key: BUSINESS_NAME
+        value: Perfect Polish
+      - key: BUSINESS_SERVICES
+        value: Pulido y detallado automotriz
+      - key: BUSINESS_LOCATION
+        value: No especificada
+      - key: BUSINESS_HOURS
+        value: No especificado
+      - key: BUSINESS_CONTACT
+        value: No especificado
+      - key: BUSINESS_TONE
+        value: Amable, profesional y natural
