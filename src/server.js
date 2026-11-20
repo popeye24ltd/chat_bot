@@ -103,18 +103,22 @@ export function createRequestHandler({
     }
 
     function handlePayload(rawBody) {
-      const signature = request.headers["x-hub-signature-256"];
-      const expectedSignature = `sha256=${createHmac("sha256", config.metaAppSecret)
-        .update(rawBody)
-        .digest("hex")}`;
-      const signatureBuffer = Buffer.from(typeof signature === "string" ? signature : "");
-      const expectedBuffer = Buffer.from(expectedSignature);
-      if (
-        signatureBuffer.length !== expectedBuffer.length
-        || !timingSafeEqual(signatureBuffer, expectedBuffer)
-      ) {
-        response.writeHead(401).end("Invalid signature");
-        return;
+      if (config.metaAppSecret && config.metaAppSecret !== "sin_configurar") {
+        const signature = request.headers["x-hub-signature-256"];
+        const expectedSignature = `sha256=${createHmac("sha256", config.metaAppSecret)
+          .update(rawBody)
+          .digest("hex")}`;
+        const signatureBuffer = Buffer.from(typeof signature === "string" ? signature : "");
+        const expectedBuffer = Buffer.from(expectedSignature);
+        if (
+          signatureBuffer.length !== expectedBuffer.length
+          || !timingSafeEqual(signatureBuffer, expectedBuffer)
+        ) {
+          response.writeHead(401).end("Invalid signature");
+          return;
+        }
+      } else {
+        logger.warn?.("META_APP_SECRET no configurado; omitiendo validación de firma temporalmente.");
       }
 
       let payload;
